@@ -89,7 +89,13 @@ namespace WPF_Try_out.ViewModels
             }
             _op = op;
             _isNew = true;
-            if (_stored.HasValue) DisplayText = Format(_stored.Value);
+            if (_stored.HasValue)
+            {
+                // show friendly error when stored value is NaN/Infinity (e.g. division by zero)
+                DisplayText = double.IsNaN(_stored.Value) || double.IsInfinity(_stored.Value)
+                    ? "What is this diddy blud doing??"
+                    : Format(_stored.Value);
+            }
         }
 
         void EqualsOp()
@@ -97,7 +103,9 @@ namespace WPF_Try_out.ViewModels
             if (_op != null && _stored.HasValue)
             {
                 var result = Calculate(_stored.Value, ParseDisp(), _op);
-                DisplayText = Format(result);
+                DisplayText = double.IsNaN(result) || double.IsInfinity(result)
+                    ? "What is this diddy blud doing??"
+                    : Format(result);
                 _stored = null; _op = null; _isNew = true;
             }
         }
@@ -113,7 +121,7 @@ namespace WPF_Try_out.ViewModels
                 "Percent" => x / 100.0,
                 _ => x
             };
-            DisplayText = double.IsNaN(res) || double.IsInfinity(res) ? "Error" : Format(res);
+            DisplayText = double.IsNaN(res) || double.IsInfinity(res) ? "What is this diddy blud doing??" : Format(res);
             _isNew = true;
         }
 
