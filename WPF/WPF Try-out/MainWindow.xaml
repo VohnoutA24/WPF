@@ -1,12 +1,53 @@
 ﻿<Window x:Class="WPF_Try_out.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPF_Try_out"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Calculator" Width="360" Height="640">
+  <Grid Margin="8">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
 
-    </Grid>
+    <!-- Display -->
+    <Border Grid.Row="0" Background="#222" Padding="12" CornerRadius="6">
+      <TextBlock Text="{Binding DisplayText}" Foreground="White" FontSize="48"
+                 HorizontalAlignment="Right" VerticalAlignment="Center"/>
+    </Border>
+
+    <!-- Buttons -->
+    <UniformGrid Grid.Row="1" Columns="4" Rows="6" Margin="0,12,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+      <!-- Row 1 -->
+      <Button Content="%" Command="{Binding UnaryCommand}" CommandParameter="Percent"/>
+      <Button Content="CE" Command="{Binding ClearEntryCommand}"/>
+      <Button Content="C" Command="{Binding ClearAllCommand}"/>
+      <Button Content="⌫" Command="{Binding BackspaceCommand}"/>
+
+      <!-- Row 2 -->
+      <Button Content="1/x" Command="{Binding UnaryCommand}" CommandParameter="Reciprocal"/>
+      <Button Content="x²" Command="{Binding UnaryCommand}" CommandParameter="Square"/>
+      <Button Content="√x" Command="{Binding UnaryCommand}" CommandParameter="Sqrt"/>
+      <Button Content="÷" Command="{Binding BinaryCommand}" CommandParameter="/"/>
+
+      <!-- Digits and ops -->
+      <Button Content="7" Command="{Binding DigitCommand}" CommandParameter="7"/>
+      <Button Content="8" Command="{Binding DigitCommand}" CommandParameter="8"/>
+      <Button Content="9" Command="{Binding DigitCommand}" CommandParameter="9"/>
+      <Button Content="×" Command="{Binding BinaryCommand}" CommandParameter="*"/>
+
+      <Button Content="4" Command="{Binding DigitCommand}" CommandParameter="4"/>
+      <Button Content="5" Command="{Binding DigitCommand}" CommandParameter="5"/>
+      <Button Content="6" Command="{Binding DigitCommand}" CommandParameter="6"/>
+      <Button Content="−" Command="{Binding BinaryCommand}" CommandParameter="-"/>
+
+      <Button Content="1" Command="{Binding DigitCommand}" CommandParameter="1"/>
+      <Button Content="2" Command="{Binding DigitCommand}" CommandParameter="2"/>
+      <Button Content="3" Command="{Binding DigitCommand}" CommandParameter="3"/>
+      <Button Content="+" Command="{Binding BinaryCommand}" CommandParameter="+"/>
+
+      <Button Content="±" Command="{Binding ToggleSignCommand}"/>
+      <Button Content="0" Command="{Binding DigitCommand}" CommandParameter="0"/>
+      <Button Content="." Command="{Binding DecimalCommand}"/>
+      <Button Content="=" Command="{Binding EqualsCommand}" Background="#2DA9FF" Foreground="White"/>
+    </UniformGrid>
+  </Grid>
 </Window>

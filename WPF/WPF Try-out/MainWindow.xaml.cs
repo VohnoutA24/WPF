@@ -19,6 +19,7 @@ namespace WPF_Try_out
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new ViewModels.MainViewModel();
         }
     }
 }
