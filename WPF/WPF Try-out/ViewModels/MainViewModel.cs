@@ -87,6 +87,12 @@ namespace WPF_Try_out.ViewModels
                 else
                     _stored = ParseDisp();
             }
+            else
+            {
+                // if user presses an operator after result/equals or repeatedly, use the current display as stored value
+                if (!_stored.HasValue)
+                    _stored = ParseDisp();
+            }
             _op = op;
             _isNew = true;
             if (_stored.HasValue)
@@ -106,7 +112,10 @@ namespace WPF_Try_out.ViewModels
                 DisplayText = double.IsNaN(result) || double.IsInfinity(result)
                     ? "What is this diddy blud doing??"
                     : Format(result);
-                _stored = null; _op = null; _isNew = true;
+                // keep the result as the stored value so subsequent operators can use it
+                _stored = double.IsNaN(result) || double.IsInfinity(result) ? (double?)null : result;
+                _op = null;
+                _isNew = true;
             }
         }
 
