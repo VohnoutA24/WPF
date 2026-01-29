@@ -93,7 +93,12 @@ namespace WPF_Try_out.ViewModels
             if (!_isNew)
             {
                 if (_stored.HasValue && _op != null)
-                    _stored = Calculate(_stored.Value, ParseDisp(), _op);
+                {
+                    double right = ParseDisp();
+                    double left = _stored.Value;
+                    var res = Calculate(left, right, _op);
+                    _stored = res;
+                }
                 else
                     _stored = ParseDisp();
             }
@@ -127,10 +132,21 @@ namespace WPF_Try_out.ViewModels
         {
             if (_op != null && _stored.HasValue)
             {
-                var result = Calculate(_stored.Value, ParseDisp(), _op);
-                DisplayText = double.IsNaN(result) || double.IsInfinity(result)
-                    ? "What is this diddy blud doing??"
-                    : Format(result);
+                double right = ParseDisp();
+                var result = Calculate(_stored.Value, right, _op);
+
+                // Easter egg: 67 * 67 -> special message
+                if (_op == "*" && Math.Abs(_stored.Value - 67.0) < 1e-12 && Math.Abs(right - 67.0) < 1e-12)
+                {
+                    DisplayText = "ESPTEIN IS THAT YOU? (tuff)";
+                }
+                else
+                {
+                    DisplayText = double.IsNaN(result) || double.IsInfinity(result)
+                        ? "What is this diddy blud doing??"
+                        : Format(result);
+                }
+
                 // keep the result as the stored value so subsequent operators can use it
                 _stored = double.IsNaN(result) || double.IsInfinity(result) ? (double?)null : result;
                 _op = null;
