@@ -10,11 +10,13 @@ namespace WPF_Try_out.ViewModels
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         string _display = "0";
+        string _operationText = string.Empty;
         double? _stored;
         string? _op;
         bool _isNew = true;
 
         public string DisplayText { get => _display; set { _display = value; OnProp(nameof(DisplayText)); } }
+        public string OperationText { get => _operationText; private set { _operationText = value; OnProp(nameof(OperationText)); } }
 
         // Commands
         public ICommand DigitCommand { get; }
@@ -41,6 +43,14 @@ namespace WPF_Try_out.ViewModels
         }
 
         void OnProp(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        void UpdateOperationText()
+        {
+            if (_stored.HasValue && _op != null)
+                OperationText = $"{Format(_stored.Value)} {_op}";
+            else
+                OperationText = string.Empty;
+        }
 
         void PressDigit(string d)
         {
@@ -76,7 +86,7 @@ namespace WPF_Try_out.ViewModels
         }
 
         void ClearEntry() { DisplayText = "0"; _isNew = true; }
-        void ClearAll() { DisplayText = "0"; _stored = null; _op = null; _isNew = true; }
+        void ClearAll() { DisplayText = "0"; _stored = null; _op = null; _isNew = true; OperationText = string.Empty; }
 
         void ApplyOperator(string op)
         {
@@ -92,6 +102,14 @@ namespace WPF_Try_out.ViewModels
                 // if user presses an operator after result/equals or repeatedly, use the current display as stored value
                 if (!_stored.HasValue)
                     _stored = ParseDisp();
+
+                // If user pressed '-' while waiting for the second operand, treat it as starting a negative entry
+                if (op == "-" && _op != null)
+                {
+                    DisplayText = "-";
+                    _isNew = false;
+                    return;
+                }
             }
             _op = op;
             _isNew = true;
@@ -102,6 +120,7 @@ namespace WPF_Try_out.ViewModels
                     ? "What is this diddy blud doing??"
                     : Format(_stored.Value);
             }
+            UpdateOperationText();
         }
 
         void EqualsOp()
@@ -116,6 +135,7 @@ namespace WPF_Try_out.ViewModels
                 _stored = double.IsNaN(result) || double.IsInfinity(result) ? (double?)null : result;
                 _op = null;
                 _isNew = true;
+                UpdateOperationText();
             }
         }
 
@@ -132,6 +152,8 @@ namespace WPF_Try_out.ViewModels
             };
             DisplayText = double.IsNaN(res) || double.IsInfinity(res) ? "What is this diddy blud doing??" : Format(res);
             _isNew = true;
+            // unary results are final for the current entry
+            UpdateOperationText();
         }
 
         double Calculate(double a, double b, string op)

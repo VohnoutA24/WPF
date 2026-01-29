@@ -1,17 +1,39 @@
 ﻿<Window x:Class="WPF_Try_out.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Calculator" Width="360" Height="640">
-  <Grid Margin="8">
+        Title="Calculator" Width="360" Height="640"
+        Background="#111">
+  <Window.Resources>
+    <SolidColorBrush x:Key="CalcBackground" Color="#0F1113"/>
+    <SolidColorBrush x:Key="PanelBackground" Color="#1C1F22"/>
+    <SolidColorBrush x:Key="DisplayForeground" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="SubtleForeground" Color="#9AA0A6"/>
+    <SolidColorBrush x:Key="ButtonBrush" Color="#25282B"/>
+    <Style TargetType="Button">
+      <Setter Property="Background" Value="{StaticResource ButtonBrush}"/>
+      <Setter Property="Foreground" Value="White"/>
+      <Setter Property="FontSize" Value="18"/>
+      <Setter Property="Margin" Value="6"/>
+      <Setter Property="Padding" Value="8"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="HorizontalContentAlignment" Value="Center"/>
+      <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+  </Window.Resources>
+
+  <Grid Margin="8" Background="{StaticResource CalcBackground}">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
 
     <!-- Display -->
-    <Border Grid.Row="0" Background="#222" Padding="12" CornerRadius="6">
-      <TextBlock Text="{Binding DisplayText}" Foreground="White" FontSize="48"
-                 HorizontalAlignment="Right" VerticalAlignment="Center"/>
+    <Border Grid.Row="0" Background="{StaticResource PanelBackground}" Padding="12" CornerRadius="6">
+      <StackPanel>
+        <TextBlock Text="{Binding OperationText}" Foreground="{StaticResource SubtleForeground}" FontSize="16" HorizontalAlignment="Right" Margin="0,0,0,6"/>
+        <TextBlock Text="{Binding DisplayText}" Foreground="{StaticResource DisplayForeground}" FontSize="48"
+                   HorizontalAlignment="Right" VerticalAlignment="Center"/>
+      </StackPanel>
     </Border>
 
     <!-- Buttons -->
