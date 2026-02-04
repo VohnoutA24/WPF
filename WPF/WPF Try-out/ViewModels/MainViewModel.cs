@@ -143,8 +143,8 @@ namespace WPF_Try_out.ViewModels
                 if (_op == "*" && Math.Abs(_stored.Value - 67.0) < 1e-12 && Math.Abs(right - 67.0) < 1e-12)
                 {
                     DisplayText = "ESPTEIN IS THAT YOU? (tuff)";
-                    // show attached image next to the text
-                    EasterEggImagePath = @"C:\Users\Vohnouta24\Documents\GitHub\WPF\WPF\WPF Try-out\Assets\easter.png";
+                    // image will be copied to the published output; use site-of-origin pack URI
+                    EasterEggImagePath = "pack://siteoforigin:,,,/Assets/easter.png";
                     ShowEasterEgg = true;
                 }
                 else

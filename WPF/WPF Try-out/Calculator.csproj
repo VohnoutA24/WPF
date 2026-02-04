@@ -10,4 +10,11 @@
     <AssemblyName>tuff calc</AssemblyName>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Include="Assets\easter.png">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
