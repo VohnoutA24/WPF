@@ -9,6 +9,11 @@
     <SolidColorBrush x:Key="DisplayForeground" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="SubtleForeground" Color="#9AA0A6"/>
     <SolidColorBrush x:Key="ButtonBrush" Color="#25282B"/>
+    <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    <Style TargetType="Image">
+      <Setter Property="SnapsToDevicePixels" Value="True"/>
+      <Setter Property="UseLayoutRounding" Value="True"/>
+    </Style>
     <Style TargetType="Button">
       <Setter Property="Background" Value="{StaticResource ButtonBrush}"/>
       <Setter Property="Foreground" Value="White"/>
@@ -29,11 +34,20 @@
 
     <!-- Display -->
     <Border Grid.Row="0" Background="{StaticResource PanelBackground}" Padding="12" CornerRadius="6">
-      <StackPanel>
-        <TextBlock Text="{Binding OperationText}" Foreground="{StaticResource SubtleForeground}" FontSize="16" HorizontalAlignment="Right" Margin="0,0,0,6"/>
-        <TextBlock Text="{Binding DisplayText}" Foreground="{StaticResource DisplayForeground}" FontSize="48"
-                   HorizontalAlignment="Right" VerticalAlignment="Center"/>
-      </StackPanel>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="120"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+          <TextBlock Text="{Binding OperationText}" Foreground="{StaticResource SubtleForeground}" FontSize="16" HorizontalAlignment="Right" Margin="0,0,0,6"/>
+          <TextBlock Text="{Binding DisplayText}" Foreground="{StaticResource DisplayForeground}" FontSize="48"
+                     HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        </StackPanel>
+        <Border Grid.Column="1" Background="Transparent" HorizontalAlignment="Right" VerticalAlignment="Center">
+          <Image Width="96" Height="96" Margin="6" Stretch="Uniform" Visibility="{Binding ShowEasterEgg, Converter={StaticResource BoolToVis}}" Source="{Binding EasterEggImagePath}"/>
+        </Border>
+      </Grid>
     </Border>
 
     <!-- Buttons -->

@@ -11,12 +11,16 @@ namespace WPF_Try_out.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
         string _display = "0";
         string _operationText = string.Empty;
+        string _easterEggImagePath = string.Empty;
+        bool _showEasterEgg = false;
         double? _stored;
         string? _op;
         bool _isNew = true;
 
         public string DisplayText { get => _display; set { _display = value; OnProp(nameof(DisplayText)); } }
         public string OperationText { get => _operationText; private set { _operationText = value; OnProp(nameof(OperationText)); } }
+        public string EasterEggImagePath { get => _easterEggImagePath; private set { _easterEggImagePath = value; OnProp(nameof(EasterEggImagePath)); } }
+        public bool ShowEasterEgg { get => _showEasterEgg; private set { _showEasterEgg = value; OnProp(nameof(ShowEasterEgg)); } }
 
         // Commands
         public ICommand DigitCommand { get; }
@@ -86,7 +90,7 @@ namespace WPF_Try_out.ViewModels
         }
 
         void ClearEntry() { DisplayText = "0"; _isNew = true; }
-        void ClearAll() { DisplayText = "0"; _stored = null; _op = null; _isNew = true; OperationText = string.Empty; }
+        void ClearAll() { DisplayText = "0"; _stored = null; _op = null; _isNew = true; OperationText = string.Empty; ShowEasterEgg = false; EasterEggImagePath = string.Empty; }
 
         void ApplyOperator(string op)
         {
@@ -139,12 +143,17 @@ namespace WPF_Try_out.ViewModels
                 if (_op == "*" && Math.Abs(_stored.Value - 67.0) < 1e-12 && Math.Abs(right - 67.0) < 1e-12)
                 {
                     DisplayText = "ESPTEIN IS THAT YOU? (tuff)";
+                    // show attached image next to the text
+                    EasterEggImagePath = @"C:\Users\Vohnouta24\Documents\GitHub\WPF\WPF\WPF Try-out\Assets\easter.png";
+                    ShowEasterEgg = true;
                 }
                 else
                 {
                     DisplayText = double.IsNaN(result) || double.IsInfinity(result)
                         ? "What is this diddy blud doing??"
                         : Format(result);
+                    ShowEasterEgg = false;
+                    EasterEggImagePath = string.Empty;
                 }
 
                 // keep the result as the stored value so subsequent operators can use it
