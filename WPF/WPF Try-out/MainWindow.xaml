@@ -1,7 +1,7 @@
 ﻿<Window x:Class="WPF_Try_out.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Calculator" Width="360" Height="640"
+        Title="tuff calc" Width="360" Height="640"
         Background="#111">
   <Window.Resources>
     <SolidColorBrush x:Key="CalcBackground" Color="#0F1113"/>
